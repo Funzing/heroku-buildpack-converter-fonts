@@ -1,3 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-echo "Fonts"
+echo "Custom Fonts"
+exit 0
