@@ -1,20 +1,19 @@
 #!/usr/bin/env bash
 
-function indent() {
-	c='s/^/       /'
-	case $(uname) in
-		Darwin) sed -l "$c";;
-		*)      sed -u "$c";;
-	esac
-}
+if [ "$(fc-list | grep -c 'Open Sans Hebrew')" -ge 3 ]
+then
+  echo "Custom Hebrew Fonts are already installed"
+else
+  BUILD_DIR="$1"
+  SOURCE_DIR="$(dirname $0)/../fonts.tar.gz"
+  TARGET_DIR="$BUILD_DIR/.fonts"
 
-BUILD_DIR="$1"
-SOURCE_DIR="$(dirname $0)/../fonts.tar.gz"
-TARGET_DIR="$BUILD_DIR/.fonts"
+  echo "-----> Extracting fonts to $TARGET_DIR"
 
-echo "-----> Extracting fonts to $TARGET_DIR"
+  mkdir -p "$TARGET_DIR"
+  tar -xvzf "$SOURCE_DIR" -C "$TARGET_DIR"
+  fc-cache -f
+  echo "Custom Hebrew Fonts installed"
+fi
 
-mkdir -p "$TARGET_DIR"
-tar -xvzf "$SOURCE_DIR" -C "$TARGET_DIR" | indent
-
-fc-cache -fv
+exit 0
